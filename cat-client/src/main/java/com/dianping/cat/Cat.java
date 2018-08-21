@@ -33,7 +33,7 @@ import com.dianping.cat.message.spi.MessageTree;
 public class Cat {
 	private static Cat s_instance = new Cat();
 
-	private static volatile boolean s_init = false;
+	private static volatile boolean s_init = false;//true初始化结束
 
 	private MessageProducer m_producer;
 
@@ -101,6 +101,7 @@ public class Cat {
 	}
 
 	// this should be called during application initialization time
+	//应用初始化阶段 读取配置文件,初始化cat客户端
 	public static void initialize(File configFile) {
 		PlexusContainer container = ContainerLoader.getDefaultContainer();
 
@@ -143,6 +144,7 @@ public class Cat {
 		}
 	}
 
+	//记录 时间、日志级别、cat系统、日志内容
 	static void log(String severity, String message) {
 		MessageFormat format = new MessageFormat("[{0,date,MM-dd HH:mm:ss.sss}] [{1}] [{2}] {3}");
 
