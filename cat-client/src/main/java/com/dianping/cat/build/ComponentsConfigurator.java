@@ -24,6 +24,7 @@ import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
 import com.dianping.cat.message.spi.internal.DefaultMessageStatistics;
 import com.dianping.cat.status.StatusUpdateTask;
 
+//入口函数
 public class ComponentsConfigurator extends AbstractResourceConfigurator {
 	public static void main(String[] args) {
 		generatePlexusComponentsXmlFile(new ComponentsConfigurator());
@@ -36,8 +37,9 @@ public class ComponentsConfigurator extends AbstractResourceConfigurator {
 		all.add(C(ClientConfigManager.class, DefaultClientConfigManager.class));
 		all.add(C(MessageIdFactory.class));
 
-		all.add(C(MessageManager.class, DefaultMessageManager.class) //
-		      .req(ClientConfigManager.class, TransportManager.class,  MessageIdFactory.class));
+		all.add(C(MessageManager.class, DefaultMessageManager.class) //创建DefaultMessageManager
+		      .req(ClientConfigManager.class, TransportManager.class,  MessageIdFactory.class));//注入三个实例对象
+
 		all.add(C(MessageProducer.class, DefaultMessageProducer.class) //
 		      .req(MessageManager.class, MessageIdFactory.class));
 

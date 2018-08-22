@@ -1,14 +1,14 @@
 package com.dianping.cat.message.spi;
 
 public interface MessageQueue {
-	public boolean offer(MessageTree tree);
+	public boolean offer(MessageTree tree);//插入一个元素
 
-	public boolean offer(MessageTree tree, double sampleRatio);
+	public boolean offer(MessageTree tree, double sampleRatio);//根据随机抽样比例插入元素到队列
 
-	public MessageTree peek();
+	public MessageTree peek();//一撇一个元素
 
-	public MessageTree poll();
+	public MessageTree poll();//取出一个元素
 
-	// the current size of the queue
+	// the current size of the queue 当前队列存储的真实size数量
 	public int size();
 }

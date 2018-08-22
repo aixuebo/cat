@@ -9,7 +9,7 @@ import com.dianping.cat.message.Message;
 import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
 
 public abstract class AbstractMessage implements Message {
-	private String m_type;
+	private String m_type;//信息类型，是sql还是error还是search等
 
 	private String m_name;
 
@@ -17,7 +17,7 @@ public abstract class AbstractMessage implements Message {
 
 	private long m_timestampInMillis;
 
-	private CharSequence m_data;
+	private CharSequence m_data;//key=value&key=value形式的存储多组值
 
 	private boolean m_completed;
 

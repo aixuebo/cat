@@ -2,6 +2,7 @@ package com.dianping.cat.configuration;
 
 import org.unidal.helper.Inets;
 
+//获取本地的ip和host
 public enum NetworkInterfaceManager {
 	INSTANCE;
 

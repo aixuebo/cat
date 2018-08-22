@@ -294,6 +294,7 @@ public class ChannelManager implements Task {
 		return null;
 	}
 
+	//参数格式:ip:port;ip:port
 	private List<InetSocketAddress> parseSocketAddress(String content) {
 		try {
 			List<String> strs = Splitters.by(";").noEmptyItem().split(content);

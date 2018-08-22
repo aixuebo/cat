@@ -20,7 +20,7 @@ import com.dianping.cat.message.spi.MessageTree;
 
 public class DefaultMessageProducer implements MessageProducer {
 	@Inject
-	private MessageManager m_manager;
+	private MessageManager m_manager;//注入进来的
 
 	@Inject
 	private MessageIdFactory m_factory;
@@ -44,14 +44,15 @@ public class DefaultMessageProducer implements MessageProducer {
 				StringWriter writer = new StringWriter(2048);
 
 				if (message != null) {
-					writer.write(message);
+					writer.write(message);//打印提示信息
 					writer.write(' ');
 				}
 
-				cause.printStackTrace(new PrintWriter(writer));
+				cause.printStackTrace(new PrintWriter(writer));//打印堆栈信息
 
-				String detailMessage = writer.toString();
+				String detailMessage = writer.toString();//提示信息 以及 堆栈信息
 
+				//记录哪个类、产生了什么类型的错误、错误的状态都是error、错误内容
 				if (cause instanceof Error) {
 					logEvent("Error", cause.getClass().getName(), "ERROR", detailMessage);
 				} else if (cause instanceof RuntimeException) {
@@ -70,11 +71,13 @@ public class DefaultMessageProducer implements MessageProducer {
 		logError(null, cause);
 	}
 
+	//说明是成功的,没有错误信息
 	@Override
 	public void logEvent(String type, String name) {
 		logEvent(type, name, Message.SUCCESS, null);
 	}
 
+	//记录一个简单的事件
 	@Override
 	public void logEvent(String type, String name, String status, String nameValuePairs) {
 		Event event = newEvent(type, name);
@@ -84,9 +87,10 @@ public class DefaultMessageProducer implements MessageProducer {
 		}
 
 		event.setStatus(status);
-		event.complete();
+		event.complete();//事件完成了
 	}
 
+	//记录心跳
 	@Override
 	public void logHeartbeat(String type, String name, String status, String nameValuePairs) {
 		Heartbeat heartbeat = newHeartbeat(type, name);
@@ -96,6 +100,7 @@ public class DefaultMessageProducer implements MessageProducer {
 		heartbeat.complete();
 	}
 
+	//记录统计信息
 	@Override
 	public void logMetric(String name, String status, String nameValuePairs) {
 		String type = "";
@@ -143,6 +148,7 @@ public class DefaultMessageProducer implements MessageProducer {
 		}
 	}
 
+	//某个transaction下创建一个子事件日志
 	public Event newEvent(Transaction parent, String type, String name) {
 		if (!m_manager.hasContext()) {
 			m_manager.setup();

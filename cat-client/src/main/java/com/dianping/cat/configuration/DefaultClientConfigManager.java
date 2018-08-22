@@ -22,7 +22,7 @@ import com.dianping.cat.configuration.client.transform.DefaultSaxParser;
 public class DefaultClientConfigManager implements LogEnabled, ClientConfigManager, Initializable {
 	private static final String CAT_CLIENT_XML = "/META-INF/cat/client.xml";
 
-	private static final String PROPERTIES_CLIENT_XML = "/META-INF/app.properties";
+	private static final String PROPERTIES_CLIENT_XML = "/META-INF/app.properties";//存储app的name
 	
 	private static final String XML = "/data/appdatas/cat/client.xml";
 
@@ -125,6 +125,7 @@ public class DefaultClientConfigManager implements LogEnabled, ClientConfigManag
 		return null;
 	}
 
+	//解析项目下的client.xml配置文件
 	private ClientConfig loadConfigFromXml() {
 		InputStream in = null;
 		try {
@@ -153,6 +154,7 @@ public class DefaultClientConfigManager implements LogEnabled, ClientConfigManag
 		return null;
 	}
 
+	//加载项目的name
 	private String loadProjectName() {
 		String appName = null;
 		InputStream in = null;

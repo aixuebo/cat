@@ -10,9 +10,9 @@ import com.dianping.cat.message.Transaction;
 import com.dianping.cat.message.spi.MessageManager;
 
 public class DefaultTransaction extends AbstractMessage implements Transaction {
-	private long m_durationInMicro = -1; // must be less than 0
+	private long m_durationInMicro = -1; // must be less than 0  该事物执行周期
 
-	private List<Message> m_children;
+	private List<Message> m_children;//子小心集合
 
 	private MessageManager m_manager;
 
@@ -45,13 +45,13 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
 	@Override
 	public void complete() {
 		try {
-			if (isCompleted()) {
+			if (isCompleted()) {//说明有多余一次的调用完成
 				// complete() was called more than once
 				DefaultEvent event = new DefaultEvent("cat", "BadInstrument");
 
 				event.setStatus("TransactionAlreadyCompleted");
 				event.complete();
-				addChild(event);
+				addChild(event);//但是我怀疑该事物已经被提交了，可能这次添加的事件没有意义啊
 			} else {
 				m_durationInMicro = (System.nanoTime() - m_durationStart) / 1000L;
 
@@ -79,7 +79,7 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
 	public long getDurationInMicros() {
 		if (m_durationInMicro >= 0) {
 			return m_durationInMicro;
-		} else { // if it's not completed explicitly
+		} else { // if it's not completed explicitly 说明没有完成,查看最后一个事件的执行时间
 			long duration = 0;
 			int len = m_children == null ? 0 : m_children.size();
 

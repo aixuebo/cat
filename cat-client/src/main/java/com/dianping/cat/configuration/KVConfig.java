@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+//内存的key-value集合
 public class KVConfig {
 
 	private Map<String, String> m_kvs = new HashMap<String, String>();

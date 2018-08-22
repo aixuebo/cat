@@ -29,6 +29,7 @@ import java.util.List;
  * </p>
  * 
  * @author Frankie Wu
+ * 用于跟踪消息,即一个message中有多条信息被插入
  */
 public interface Transaction extends Message {
 	/**

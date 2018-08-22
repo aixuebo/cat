@@ -84,7 +84,7 @@ public class CatFilter implements Filter {
 		},
 
 		ID_SETUP {
-			private String m_servers;
+			private String m_servers;//ip:port,ip:port,ip:port
 
 			private String getCatServer() {
 				if (m_servers == null) {
@@ -141,6 +141,7 @@ public class CatFilter implements Filter {
 				ctx.handle();
 			}
 
+			//记录哪个ip 从哪个页面跳转过来的 请求的是什么服务，以及客户端附加的代理情况
 			protected void logRequestClientInfo(HttpServletRequest req, String type) {
 				StringBuilder sb = new StringBuilder(1024);
 				String ip = "";
@@ -152,11 +153,11 @@ public class CatFilter implements Filter {
 					ip = ipForwarded;
 				}
 
-				sb.append("IPS=").append(ip);
-				sb.append("&VirtualIP=").append(req.getRemoteAddr());
-				sb.append("&Server=").append(req.getServerName());
-				sb.append("&Referer=").append(req.getHeader("referer"));
-				sb.append("&Agent=").append(req.getHeader("user-agent"));
+				sb.append("IPS=").append(ip);//请求的真实ip
+				sb.append("&VirtualIP=").append(req.getRemoteAddr());//请求的虚拟ip
+				sb.append("&Server=").append(req.getServerName());//请求的是什么服务
+				sb.append("&Referer=").append(req.getHeader("referer"));//请求从哪里来的
+				sb.append("&Agent=").append(req.getHeader("user-agent"));//请求的代理情况
 
 				Cat.logEvent(type, type + ".Server", Message.SUCCESS, sb.toString());
 			}

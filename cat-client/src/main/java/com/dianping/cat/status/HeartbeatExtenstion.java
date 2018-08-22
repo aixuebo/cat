@@ -29,6 +29,7 @@ public class HeartbeatExtenstion implements StatusExtension, Initializable {
 		return maps;
 	}
 
+	//初始化的时候将该组件注册
 	@Override
 	public void initialize() throws InitializationException {
 		StatusExtensionRegister.getInstance().register(this);

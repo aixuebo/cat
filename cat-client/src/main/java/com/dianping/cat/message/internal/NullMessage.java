@@ -12,6 +12,7 @@ import com.dianping.cat.message.TaggedTransaction;
 import com.dianping.cat.message.Trace;
 import com.dianping.cat.message.Transaction;
 
+//表示空的message,即怎么往该message存储信息都没有意义,相当于一个空桶
 public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat, ForkedTransaction, TaggedTransaction {
 	TRANSACTION,
 

@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import com.dianping.cat.message.spi.MessageQueue;
 import com.dianping.cat.message.spi.MessageTree;
 
+//默认一种实现
 public class DefaultMessageQueue implements MessageQueue {
 	private BlockingQueue<MessageTree> m_queue;
 
@@ -24,14 +25,14 @@ public class DefaultMessageQueue implements MessageQueue {
 
 	@Override
 	public boolean offer(MessageTree tree, double sampleRatio) {
-		if (tree.isSample() && sampleRatio < 1.0) {
+		if (tree.isSample() && sampleRatio < 1.0) {//说明该tree是支持随机的
 			if (sampleRatio > 0) {
-				if (rand.nextInt(100) < 100 * sampleRatio) {
+				if (rand.nextInt(100) < 100 * sampleRatio) {//100以内的随机数,满足条件则插入
 					return offer(tree);
 				}
 			}
 			return false;
-		} else {
+		} else {//不支持随机则必须全部插入进去
 			return offer(tree);
 		}
 	}

@@ -18,6 +18,7 @@ package com.dianping.cat.message;
  * </p>
  * 
  * @author Frankie Wu
+ * 用于做统计分析
  */
 public interface Metric extends Message {
 

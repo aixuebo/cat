@@ -498,13 +498,14 @@ public class PlainTextMessageCodec implements MessageCodec, LogEnabled {
 		}
 	}
 
+	//每一个线程维护一个该内存容器对象
 	public static class Context {
 		private ByteBuf m_buffer;
 
-		private char[] m_data;
+		private char[] m_data;//具体存储的数据内容
 
 		public Context() {
-			m_data = new char[4 * 1024 * 1024];
+			m_data = new char[4 * 1024 * 1024];//4M空间
 		}
 
 		public ByteBuf getBuffer() {
@@ -523,16 +524,20 @@ public class PlainTextMessageCodec implements MessageCodec, LogEnabled {
 
 	/**
 	 * Thread safe date helper class. DateFormat is NOT thread safe.
+	 * 线程安全的时间帮助类
 	 */
 	protected static class DateHelper {
+		//先初始化若干个对象
 		private BlockingQueue<SimpleDateFormat> m_formats = new ArrayBlockingQueue<SimpleDateFormat>(20);
 
+		//yyyy-MM-dd与时间戳的内存映射
 		private Map<String, Long> m_map = new ConcurrentHashMap<String, Long>();
 
+		//时间戳转换成时间字符串
 		public String format(long timestamp) {
-			SimpleDateFormat format = m_formats.poll();
+			SimpleDateFormat format = m_formats.poll();//是等待hold住的,因此可以解决多线程问题
 
-			if (format == null) {
+			if (format == null) {//初始化对象
 				format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 				format.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 			}
@@ -540,16 +545,17 @@ public class PlainTextMessageCodec implements MessageCodec, LogEnabled {
 			try {
 				return format.format(new Date(timestamp));
 			} finally {
-				if (m_formats.remainingCapacity() > 0) {
+				if (m_formats.remainingCapacity() > 0) {//将初始化的对象存储进去
 					m_formats.offer(format);
 				}
 			}
 		}
 
+		//解析字符串转换成时间戳
 		public long parse(String str) {
 			int len = str.length();
 			String date = str.substring(0, 10);
-			Long baseline = m_map.get(date);
+			Long baseline = m_map.get(date);//获取内存映射,或者创建新的映射关系
 
 			if (baseline == null) {
 				try {

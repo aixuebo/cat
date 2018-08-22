@@ -20,6 +20,7 @@ package com.dianping.cat.message;
  * </p>
  * 
  * @author Frankie Wu
+ * 用于心跳反应日志
  */
 public interface Heartbeat extends Message {
 

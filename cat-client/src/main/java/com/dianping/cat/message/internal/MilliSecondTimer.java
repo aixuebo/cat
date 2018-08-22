@@ -12,6 +12,7 @@ public class MilliSecondTimer {
 
 	private static boolean m_isWindows = false;
 
+	//获取当前时间戳
 	public static long currentTimeMillis() {
 		if (m_isWindows) {
 			if (m_baseTime == 0) {
